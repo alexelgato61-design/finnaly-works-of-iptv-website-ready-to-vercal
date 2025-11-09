@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { getApiUrl } from '../../../lib/config'
 import Toast from '../../../components/Toast'
+import DeleteConfirmModal from '../../../components/DeleteConfirmModal'
 
 export default function BlogsManagementPage() {
   const router = useRouter()
@@ -12,6 +13,7 @@ export default function BlogsManagementPage() {
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('all')
   const [toast, setToast] = useState(null)
+  const [deleteModal, setDeleteModal] = useState({ isOpen: false, blogId: null, blogTitle: '' })
 
   useEffect(() => {
     checkAuth()
@@ -70,12 +72,28 @@ export default function BlogsManagementPage() {
     }
   }
 
-  const handleDelete = async (id, title) => {
-    if (!confirm(`Are you sure you want to delete "${title}"?`)) return
+  const openDeleteModal = (id, title) => {
+    setDeleteModal({
+      isOpen: true,
+      blogId: id,
+      blogTitle: title
+    })
+  }
+
+  const closeDeleteModal = () => {
+    setDeleteModal({
+      isOpen: false,
+      blogId: null,
+      blogTitle: ''
+    })
+  }
+
+  const handleDelete = async () => {
+    const { blogId } = deleteModal
 
     try {
       const apiUrl = getApiUrl()
-      const res = await fetch(`${apiUrl}/admin/blogs/${id}`, {
+      const res = await fetch(`${apiUrl}/admin/blogs/${blogId}`, {
         method: 'DELETE',
         credentials: 'include'
       })
@@ -160,6 +178,14 @@ export default function BlogsManagementPage() {
           onClose={() => setToast(null)}
         />
       )}
+
+      <DeleteConfirmModal
+        isOpen={deleteModal.isOpen}
+        onClose={closeDeleteModal}
+        onConfirm={handleDelete}
+        title={deleteModal.blogTitle}
+        itemType="blog"
+      />
       
       <header className="admin-header">
         <div className="header-content">
@@ -235,7 +261,7 @@ export default function BlogsManagementPage() {
                       Edit
                     </Link>
                     <button
-                      onClick={() => handleDelete(blog.id, blog.title)}
+                      onClick={() => openDeleteModal(blog.id, blog.title)}
                       className="btn btn-delete"
                     >
                       Delete
