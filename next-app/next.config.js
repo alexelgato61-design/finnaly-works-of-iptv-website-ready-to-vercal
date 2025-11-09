@@ -29,10 +29,17 @@ const nextConfig = {
 
   // Proxy API requests to backend (avoids CORS issues in development)
   async rewrites() {
+    const isDev = process.env.NODE_ENV !== 'production'
+    
+    // In production, use environment variable for API URL
+    const apiUrl = isDev 
+      ? 'http://localhost:5000' 
+      : process.env.NEXT_PUBLIC_API_URL || 'https://api.365upstream.com'
+    
     return [
       {
         source: '/api/:path*',
-        destination: 'http://localhost:5000/api/:path*',
+        destination: `${apiUrl}/api/:path*`,
       },
     ]
   },

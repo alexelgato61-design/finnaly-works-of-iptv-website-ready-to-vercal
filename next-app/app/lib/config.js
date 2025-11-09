@@ -1,26 +1,11 @@
 // Shared API URL configuration
-// In development: uses Next.js proxy (/api -> localhost:5000/api)
-// In production: uses direct API URL (https://api.365upstream.com/api)
+// Uses relative URL '/api' for Next.js proxy in both dev and production
+// The proxy destination is configured in next.config.js rewrites
 export function getApiUrl() {
-  // Check if we're in browser (client-side)
-  if (typeof window !== 'undefined') {
-    const hostname = window.location.hostname;
-    
-    // In development (localhost), use relative URL - Next.js proxy handles it
-    if (hostname === 'localhost' || hostname === '127.0.0.1') {
-      return '/api'; // No protocol/port - use Next.js proxy
-    }
-    
-    // In production, use the API subdomain with /api
-    return 'https://api.365upstream.com/api';
-  }
-  
-  // Server-side: use environment variable or fallback
-  if (process.env.NEXT_PUBLIC_API_URL) {
-    return process.env.NEXT_PUBLIC_API_URL;
-  }
-  
-  return 'https://api.365upstream.com/api';
+  // Always use relative URL - Next.js proxy handles routing to backend
+  // In development: /api -> localhost:5000/api
+  // In production: /api -> your backend API URL (set in Vercel env vars)
+  return '/api';
 }
 
 export function getApiBase() {
