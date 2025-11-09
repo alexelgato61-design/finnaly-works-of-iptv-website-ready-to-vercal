@@ -36,17 +36,6 @@ export default function DeleteConfirmModal({ isOpen, onClose, onConfirm, title, 
             <p className="modal-message">
               Are you sure you want to delete this {itemType}?
             </p>
-            <div className="modal-item-title">
-              <span className="quote-icon">"</span>
-              {truncatedTitle}
-              <span className="quote-icon">"</span>
-            </div>
-            <p className="modal-warning">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
-              </svg>
-              This action cannot be undone.
-            </p>
           </div>
           
           <div className="modal-actions">
@@ -157,52 +146,10 @@ export default function DeleteConfirmModal({ isOpen, onClose, onConfirm, title, 
 
         .modal-message {
           text-align: center;
-          color: #aaa;
-          font-size: 1rem;
-          margin-bottom: 1.5rem;
+          color: #ddd;
+          font-size: 1.125rem;
+          margin-bottom: 0;
           line-height: 1.6;
-        }
-
-        .modal-item-title {
-          background: rgba(255, 68, 68, 0.1);
-          border: 1px solid rgba(255, 68, 68, 0.3);
-          border-radius: 10px;
-          padding: 1rem 1.25rem;
-          margin-bottom: 1.5rem;
-          color: #fff;
-          font-size: 1rem;
-          line-height: 1.6;
-          font-weight: 600;
-          text-align: center;
-          word-break: break-word;
-          position: relative;
-        }
-
-        .quote-icon {
-          color: #ff4444;
-          font-size: 1.5rem;
-          font-weight: 700;
-          opacity: 0.5;
-          margin: 0 0.25rem;
-        }
-
-        .modal-warning {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.5rem;
-          color: #ff8800;
-          font-size: 0.875rem;
-          font-weight: 600;
-          text-align: center;
-          padding: 0.75rem 1rem;
-          background: rgba(255, 136, 0, 0.1);
-          border-radius: 8px;
-          border: 1px solid rgba(255, 136, 0, 0.3);
-        }
-
-        .modal-warning svg {
-          flex-shrink: 0;
         }
 
         .modal-actions {
